@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Texas Chicken | Menú</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-badge">TC</div>
+      <div class="logo-text">Texas Chicken</div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html" class="active">Menú</a></li>
+      <li><a href="login.html">Iniciar Sesión</a></li>
+      <li><a href="registro.html">Registrarse</a></li>
+      <li>
+        <button class="btn-cart" id="cart-btn">
+          🛒 Carrito (<span id="cart-counter">0</span>)
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-container">
+    <section class="page-section">
+      <h2 class="section-title">Nuestro Menú</h2>
+      <div class="grid-menu">
+        
+        <div class="card-product">
+          <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80" alt="Bucket Texas">
+          <div class="card-body">
+            <h3 class="card-title">Bucket Texas (8 Piezas)</h3>
+            <p class="card-desc">8 piezas de pollo frito crujiente acompañado de papas fritas familiares.</p>
+            <div class="card-footer">
+              <span class="price">$14.99</span>
+              <button class="btn-add">Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-product">
+          <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80" alt="Tenders Combo">
+          <div class="card-body">
+            <h3 class="card-title">Combo Tenders (5 Pzs)</h3>
+            <p class="card-desc">Tiras de pechuga deshuesada empanizada, salsa a elección y bebida.</p>
+            <div class="card-footer">
+              <span class="price">$8.50</span>
+              <button class="btn-add">Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-product">
+          <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=500&q=80" alt="Hamburguesa Crispy">
+          <div class="card-body">
+            <h3 class="card-title">Texas Crispy Burger</h3>
+            <p class="card-desc">Filete de pechuga crujiente, pepinillos, lechuga y mayonesa especial.</p>
+            <div class="card-footer">
+              <span class="price">$6.99</span>
+              <button class="btn-add">Agregar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-product">
+          <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=500&q=80" alt="Papas Fritas">
+          <div class="card-body">
+            <h3 class="card-title">Papas Fritas Texas</h3>
+            <p class="card-desc">Papas sazonadas al estilo sureño con queso cheddar derretido.</p>
+            <div class="card-footer">
+              <span class="price">$3.50</span>
+              <button class="btn-add">Agregar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <h3>Texas Chicken</h3>
+        <p>El verdadero sabor del pollo frito.</p>
+      </div>
+      <div class="social-links">
+        <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 Texas Chicken. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

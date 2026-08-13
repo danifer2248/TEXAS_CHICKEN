@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Texas Chicken | Inicio</title>
+  <title>Texas Chicken | Registrarse</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,10 +16,10 @@
     </a>
 
     <ul class="nav-links">
-      <li><a href="index.html" class="active">Inicio</a></li>
+      <li><a href="index.html">Inicio</a></li>
       <li><a href="menu.html">Menú</a></li>
       <li><a href="login.html">Iniciar Sesión</a></li>
-      <li><a href="registro.html">Registrarse</a></li>
+      <li><a href="registro.html" class="active">Registrarse</a></li>
       <li>
         <button class="btn-cart" id="cart-btn">
           🛒 Carrito (<span id="cart-counter">0</span>)
@@ -31,26 +31,27 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main class="main-container">
     <section class="page-section">
-      <div class="hero">
-        <h1>¡El Sabor Crujiente de Texas!</h1>
-        <p>Pollo frito 100% marinado con nuestra receta secreta de especias.</p>
-        <a href="menu.html" class="btn-primary">Ver Menú y Ordenar</a>
-      </div>
-
-      <h2>¿Por qué elegir Texas Chicken?</h2>
-      <div class="features">
-        <div class="feature-card">
-          <h3>🍗 Receta Crujiente</h3>
-          <p>Preparado diariamente con pollo fresco y nuestro empanizado especial.</p>
-        </div>
-        <div class="feature-card">
-          <h3>⚡ Envíos Rápidos</h3>
-          <p>Tu pedido llega caliente y listo para disfrutar directamente a tu puerta.</p>
-        </div>
-        <div class="feature-card">
-          <h3>🔥 Combos Familiares</h3>
-          <p>Las mejores promociones para compartir con la familia o amigos.</p>
-        </div>
+      <div class="form-container">
+        <h2>Crear una Cuenta</h2>
+        <form id="form-registro">
+          <div class="form-group">
+            <label for="reg-name">Nombre Completo</label>
+            <input type="text" id="reg-name" placeholder="Ej. Juan Pérez" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-email">Correo Electrónico</label>
+            <input type="email" id="reg-email" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-phone">Teléfono</label>
+            <input type="tel" id="reg-phone" placeholder="123-456-789" required>
+          </div>
+          <div class="form-group">
+            <label for="reg-password">Contraseña</label>
+            <input type="password" id="reg-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn-submit">Registrarse</button>
+        </form>
       </div>
     </section>
   </main>
