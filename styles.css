@@ -1,4 +1,4 @@
-/* VARIABLES DE PALETA DE COLORES */
+/* PALETA DE COLORES (ROJO, AMARILLO, BLANCO) */
 :root {
   --primary-red: #E50914;
   --secondary-yellow: #FFC72C;
@@ -8,7 +8,6 @@
   --light-gray: #F8F9FA;
 }
 
-/* RESET GENERAL */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -76,7 +75,6 @@ body {
   font-weight: bold;
   font-size: 1rem;
   transition: color 0.2s ease;
-  cursor: pointer;
 }
 
 .nav-links a:hover, 
@@ -111,14 +109,8 @@ body {
   padding: 30px 20px;
 }
 
-/* GESTIÓN DE VENTANAS */
 .page-section {
-  display: none;
   animation: fadeIn 0.3s ease-in-out;
-}
-
-.page-section.active {
-  display: block;
 }
 
 @keyframes fadeIn {
@@ -126,7 +118,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* INICIO (HERO) */
+/* HERO INICIO */
 .hero {
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=1200&q=80');
   background-size: cover;
@@ -151,6 +143,7 @@ body {
 }
 
 .btn-primary {
+  display: inline-block;
   background-color: var(--primary-red);
   color: var(--bg-white);
   border: 2px solid var(--secondary-yellow);
@@ -158,6 +151,7 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   border-radius: 30px;
+  text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -181,7 +175,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-/* MENÚ Y TARJETAS DE PRODUCTO */
+/* MENÚ Y PRODUCTOS */
 .section-title {
   color: var(--primary-red);
   margin-bottom: 20px;
@@ -257,7 +251,7 @@ body {
   color: var(--bg-white);
 }
 
-/* FORMULARIOS (LOGIN / REGISTRO) */
+/* FORMULARIOS */
 .form-container {
   max-width: 450px;
   margin: 40px auto;
