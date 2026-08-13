@@ -42,6 +42,33 @@ document.addEventListener('DOMContentLoaded', () => {
       // Calcular total
       const total = cart.reduce((sum, item) => sum + item.price, 0);
       cartTotal.innerText = total.toFixed(2);
+
+      // Agregar o actualizar el botón "Realizar pedido" dentro del desplegable
+      let checkoutBtn = document.getElementById('btn-checkout');
+      if (cart.length > 0) {
+        if (!checkoutBtn) {
+          checkoutBtn = document.createElement('button');
+          checkoutBtn.id = 'btn-checkout';
+          checkoutBtn.className = 'btn-submit';
+          checkoutBtn.style.marginTop = '12px';
+          checkoutBtn.innerText = 'Realizar pedido';
+          
+          // Evento para procesar la compra
+          checkoutBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert('¡Gracias por tu compra! Tu pedido en Texas Chicken está en proceso.');
+            cart = [];
+            updateCartUI();
+            if (cartDropdown) {
+              cartDropdown.classList.remove('active');
+            }
+          });
+
+          cartDropdown.appendChild(checkoutBtn);
+        }
+      } else if (checkoutBtn) {
+        checkoutBtn.remove();
+      }
     }
 
     // Guardar estado en localStorage
@@ -51,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. AGREGAR PRODUCTOS AL CARRITO
   addButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Extrae la información desde el atributo onclick o directamente del HTML si no hay parámetros
       const card = button.closest('.card-product');
       let name = 'Producto';
       let price = 0;
@@ -72,17 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
       cart.push(newItem);
       updateCartUI();
 
-      // Desplegar menú del carrito para confirmar
+      // Desplegar menú del carrito al agregar un producto
       if (cartDropdown) {
         cartDropdown.classList.add('active');
       }
     });
   });
 
-  // 4. QUITAR PRODUCTOS DEL CARRITO (Event Delegation)
+  // 4. QUITAR PRODUCTOS DEL CARRITO (Sin cerrar el desplegable)
   if (cartItemsList) {
     cartItemsList.addEventListener('click', (e) => {
       if (e.target.classList.contains('btn-remove')) {
+        e.stopPropagation(); // Evita que se dispare el evento global de cierre
         const idToRemove = parseFloat(e.target.getAttribute('data-id'));
         cart = cart.filter(item => item.id !== idToRemove);
         updateCartUI();
@@ -97,11 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
       cartDropdown.classList.toggle('active');
     });
 
-    // Cerrar el desplegable al hacer clic fuera
-    document.addEventListener('click', (e) => {
-      if (!cartDropdown.contains(e.target) && !cartBtn.contains(e.target)) {
-        cartDropdown.classList.remove('active');
-      }
+    // Evitar que los clics dentro del menú desplegable lo cierren accidentalmente
+    cartDropdown.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    // Cerrar el desplegable ÚNICAMENTE al hacer clic fuera de él o del botón del carrito
+    document.addEventListener('click', () => {
+      cartDropdown.classList.remove('active');
     });
   }
 
