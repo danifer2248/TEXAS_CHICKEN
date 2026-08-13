@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas Chicken | El mejor pollo frito</title>
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <!-- Click en el logo redirige a la ventana de Inicio -->
+        <a href="#" class="logo" id="logo-btn">
+            <div class="logo-badge">TC</div>
+            <div class="logo-text">Texas Chicken</div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a id="nav-inicio" class="nav-item active" data-target="inicio">Inicio</a></li>
+            <li><a id="nav-menu" class="nav-item" data-target="menu">Menú</a></li>
+            <li><a id="nav-login" class="nav-item" data-target="login">Iniciar Sesión</a></li>
+            <li><a id="nav-registro" class="nav-item" data-target="registro">Registrarse</a></li>
+            <li>
+                <button class="btn-cart" id="cart-btn">
+                    🛒 Carrito (<span id="cart-counter">0</span>)
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL DE VENTANAS -->
+    <main class="main-container">
+
+        <!-- VENTANA 1: INICIO -->
+        <section id="inicio" class="page-section active">
+            <div class="hero">
+                <h1>¡El Sabor Crujiente de Texas!</h1>
+                <p>Pollo frito 100% marinado con nuestra receta secreta de especias.</p>
+                <button class="btn-primary" id="btn-hero-order">Ver Menú y Ordenar</button>
+            </div>
+
+            <h2>¿Por qué elegir Texas Chicken?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🍗 Receta Crujiente</h3>
+                    <p>Preparado diariamente con pollo fresco y nuestro empanizado especial.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Envíos Rápidos</h3>
+                    <p>Tu pedido llega caliente y listo para disfrutar directamente a tu puerta.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔥 Combos Familiares</h3>
+                    <p>Las mejores promociones para compartir con la familia o amigos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VENTANA 2: MENÚ Y PRODUCTOS -->
+        <section id="menu" class="page-section">
+            <h2 class="section-title">Nuestro Menú</h2>
+            <div class="grid-menu">
+
+                <div class="card-product">
+                    <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80"
+                        alt="Bucket Texas">
+                    <div class="card-body">
+                        <h3 class="card-title">Bucket Texas (8 Piezas)</h3>
+                        <p class="card-desc">8 piezas de pollo frito crujiente acompañado de papas fritas familiares.
+                        </p>
+                        <div class="card-footer">
+                            <span class="price">$14.99</span>
+                            <button class="btn-add">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-product">
+                    <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80"
+                        alt="Tenders Combo">
+                    <div class="card-body">
+                        <h3 class="card-title">Combo Tenders (5 Pzs)</h3>
+                        <p class="card-desc">Tiras de pechuga deshuesada empanizada, salsa a elección y bebida.</p>
+                        <div class="card-footer">
+                            <span class="price">$8.50</span>
+                            <button class="btn-add">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-product">
+                    <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=500&q=80"
+                        alt="Hamburguesa Crispy">
+                    <div class="card-body">
+                        <h3 class="card-title">Texas Crispy Burger</h3>
+                        <p class="card-desc">Filete de pechuga crujiente, pepinillos, lechuga y mayonesa especial.</p>
+                        <div class="card-footer">
+                            <span class="price">$6.99</span>
+                            <button class="btn-add">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-product">
+                    <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=500&q=80"
+                        alt="Papas Fritas">
+                    <div class="card-body">
+                        <h3 class="card-title">Papas Fritas Texas</h3>
+                        <p class="card-desc">Papas sazonadas al estilo sureño con queso cheddar derretido.</p>
+                        <div class="card-footer">
+                            <span class="price">$3.50</span>
+                            <button class="btn-add">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- VENTANA 3: INICIAR SESIÓN -->
+        <section id="login" class="page-section">
+            <div class="form-container">
+                <h2>Iniciar Sesión</h2>
+                <form id="form-login">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- VENTANA 4: REGISTRO -->
+        <section id="registro" class="page-section">
+            <div class="form-container">
+                <h2>Crear una Cuenta</h2>
+                <form id="form-registro">
+                    <div class="form-group">
+                        <label for="reg-name">Nombre Completo</label>
+                        <input type="text" id="reg-name" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Correo Electrónico</label>
+                        <input type="email" id="reg-email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Teléfono</label>
+                        <input type="tel" id="reg-phone" placeholder="123-456-789" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Registrarse</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Texas Chicken</h3>
+                <p>El verdadero sabor del pollo frito.</p>
+            </div>
+            <div class="social-links">
+                <!-- Enlaces a Redes Sociales -->
+                <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+                <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Texas Chicken. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- Enlace al archivo JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+
+</html>
