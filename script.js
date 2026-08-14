@@ -13,6 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const formLogin = document.getElementById('form-login');
   const formRegistro = document.getElementById('form-registro');
+  const authLinks = document.querySelectorAll('[data-auth-link]');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  // Comprueba si hay un usuario logeado
+  function isLoggedIn() {
+    return localStorage.getItem('texasLoggedIn') === 'true';
+  }
+
+  function toggleAuthNav() {
+    const logged = isLoggedIn();
+
+    authLinks.forEach(link => {
+      const shouldHide = logged && (link.dataset.authLink === 'login' || link.dataset.authLink === 'register');
+      link.classList.toggle('hidden', shouldHide);
+    });
+
+    if (logoutBtn) {
+      logoutBtn.classList.toggle('hidden', !logged);
+    }
+  }
 
   // 2. FUNCIÓN PARA ACTUALIZAR LA VISTA DEL CARRITO
   function updateCartUI() {
@@ -75,9 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('texasCart', JSON.stringify(cart));
   }
 
-  // 3. AGREGAR PRODUCTOS AL CARRITO
+  // 3. AGREGAR PRODUCTOS AL CARRITO (redirige a login si no hay sesión)
   addButtons.forEach(button => {
     button.addEventListener('click', () => {
+      if (!isLoggedIn()) {
+        alert('Debes iniciar sesión para agregar productos. Redirigiendo a iniciar sesión...');
+        window.location.href = 'login.html';
+        return;
+      }
+
       const card = button.closest('.card-product');
       let name = 'Producto';
       let price = 0;
@@ -139,6 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formLogin) {
     formLogin.addEventListener('submit', (e) => {
       e.preventDefault();
+      // Marcar sesión como iniciada
+      const emailInput = document.getElementById('login-email');
+      if (emailInput) {
+        localStorage.setItem('texasUserEmail', emailInput.value);
+      }
+      localStorage.setItem('texasLoggedIn', 'true');
+      toggleAuthNav();
       alert('¡Inicio de sesión exitoso! Bienvenido a Texas Chicken.');
       formLogin.reset();
       window.location.href = 'menu.html';
@@ -148,13 +181,36 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formRegistro) {
     formRegistro.addEventListener('submit', (e) => {
       e.preventDefault();
+      // Registrar y marcar sesión como iniciada
+      const nameInput = document.getElementById('reg-name');
+      const emailInput = document.getElementById('reg-email');
+      if (nameInput) {
+        localStorage.setItem('texasUserName', nameInput.value);
+      }
+      if (emailInput) {
+        localStorage.setItem('texasUserEmail', emailInput.value);
+      }
+      localStorage.setItem('texasLoggedIn', 'true');
+      toggleAuthNav();
       alert('¡Cuenta creada con éxito! Ya puedes realizar tu pedido.');
       formRegistro.reset();
       window.location.href = 'menu.html';
     });
   }
 
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('texasLoggedIn');
+      localStorage.removeItem('texasUserEmail');
+      localStorage.removeItem('texasUserName');
+      toggleAuthNav();
+      alert('Has cerrado sesión.');
+      window.location.href = 'index.html';
+    });
+  }
+
   // Carga inicial de la UI al abrir cualquier página
+  toggleAuthNav();
   updateCartUI();
 
 });

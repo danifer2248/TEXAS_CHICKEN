@@ -82,6 +82,26 @@ body {
   color: var(--secondary-yellow);
 }
 
+.hidden {
+  display: none !important;
+}
+
+.btn-logout {
+  background-color: var(--bg-white);
+  color: var(--primary-red);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: var(--secondary-yellow);
+  color: var(--text-dark);
+}
+
 /* CARRITO EN NAVBAR */
 .cart-container {
   position: relative;
