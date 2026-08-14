@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
           checkoutBtn.className = 'btn-submit';
           checkoutBtn.style.marginTop = '12px';
           checkoutBtn.innerText = 'Realizar pedido';
-          
+
           // Evento para procesar la compra
           checkoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();

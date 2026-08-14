@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Texas Cochabamba | Menú</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- NAVBAR -->
@@ -27,7 +29,7 @@
           <button class="btn-cart" id="cart-btn">
             🛒 Carrito (<span id="cart-counter">0</span>)
           </button>
-          
+
           <div class="cart-dropdown" id="cartDropdown">
             <h4>Tu Pedido</h4>
             <ul class="cart-items-list" id="cartItemsList">
@@ -46,57 +48,144 @@
   <main class="main-container">
     <section class="page-section">
       <h2 class="section-title">Nuestro Menú</h2>
-      <div class="grid-menu">
-        
-        <div class="card-product">
-          <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80" alt="Bucket Texas">
-          <div class="card-body">
-            <h3 class="card-title">Bucket Texas (8 Piezas)</h3>
-            <p class="card-desc">8 piezas de pollo frito crujiente acompañado de papas fritas familiares.</p>
-            <div class="card-footer">
-              <span class="price">Bs.14.99</span>
-              <button class="btn-add" onclick="addToCart('Bucket Texas (8 Piezas)', 14.99)">Agregar</button>
+
+      <!-- NAVEGACIÓN RÁPIDA POR CATEGORÍAS -->
+      <nav class="menu-categories-nav">
+        <a href="#hamburguesas" class="cat-btn">🍔 Hamburguesas</a>
+        <a href="#pollo" class="cat-btn">🍗 Pollo Frito</a>
+        <a href="#alitas" class="cat-btn">🍗 Alitas</a>
+        <a href="#extras" class="cat-btn">🍟 Extras</a>
+        <a href="#bebidas" class="cat-btn">🥤 Bebidas</a>
+        <a href="#postres" class="cat-btn">🍦 Postres</a>
+      </nav>
+
+      <!-- SECCIÓN: HAMBURGUESAS -->
+      <div id="hamburguesas" class="menu-category-group">
+        <h3 class="category-title">🍔 Hamburguesas</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=500&q=80"
+              alt="Texas Crispy Burger">
+            <div class="card-body">
+              <h3 class="card-title">Texas Crispy Burger</h3>
+              <p class="card-desc">Filete de pechuga crujiente, pepinillos, lechuga y mayonesa especial.</p>
+              <div class="card-footer">
+                <span class="price">Bs.25.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="card-product">
-          <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80" alt="Tenders Combo">
-          <div class="card-body">
-            <h3 class="card-title">Combo Tenders (5 Pzs)</h3>
-            <p class="card-desc">Tiras de pechuga deshuesada empanizada, salsa a elección y bebida.</p>
-            <div class="card-footer">
-              <span class="price">Bs.8.50</span>
-              <button class="btn-add" onclick="addToCart('Combo Tenders (5 Pzs)', 8.50)">Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-product">
-          <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=500&q=80" alt="Hamburguesa Crispy">
-          <div class="card-body">
-            <h3 class="card-title">Texas Crispy Burger</h3>
-            <p class="card-desc">Filete de pechuga crujiente, pepinillos, lechuga y mayonesa especial.</p>
-            <div class="card-footer">
-              <span class="price">Bs.6.99</span>
-              <button class="btn-add" onclick="addToCart('Texas Crispy Burger', 6.99)">Agregar</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-product">
-          <img src="https://okdiario.com/img/2023/04/12/el-truco-definitivo-para-que-las-patatas-fritas-te-queden-mas-crujientes.jpg" alt="Papas Fritas">
-          <div class="card-body">
-            <h3 class="card-title">Papas Fritas Texas</h3>
-            <p class="card-desc">Papas sazonadas al estilo sureño con queso cheddar derretido.</p>
-            <div class="card-footer">
-              <span class="price">Bs. 3.50</span>
-              <button class="btn-add" onclick="addToCart('Papas Fritas Texas', 3.50)">Agregar</button>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- SECCIÓN: POLLO FRITO -->
+      <div id="pollo" class="menu-category-group">
+        <h3 class="category-title">🍗 Pollo Frito</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=500&q=80"
+              alt="Bucket Texas">
+            <div class="card-body">
+              <h3 class="card-title">Bucket Texas (8 Piezas)</h3>
+              <p class="card-desc">8 piezas de pollo frito crujiente acompañado de papas fritas familiares.</p>
+              <div class="card-footer">
+                <span class="price">Bs.75.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=500&q=80"
+              alt="Tenders Combo">
+            <div class="card-body">
+              <h3 class="card-title">Combo Tenders (5 Pzs)</h3>
+              <p class="card-desc">Tiras de pechuga deshuesada empanizada, salsa a elección y bebida.</p>
+              <div class="card-footer">
+                <span class="price">Bs.35.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: ALITAS -->
+      <div id="alitas" class="menu-category-group">
+        <h3 class="category-title">🍗 Alitas</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1527477396000-e27163b481c2?auto=format&fit=crop&w=500&q=80"
+              alt="Alitas BBQ">
+            <div class="card-body">
+              <h3 class="card-title">Alitas Texas BBQ (10 Pzs)</h3>
+              <p class="card-desc">Alitas crujientes bañadas en nuestra salsa BBQ ahumada artesanal.</p>
+              <div class="card-footer">
+                <span class="price">Bs.40.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: EXTRAS -->
+      <div id="extras" class="menu-category-group">
+        <h3 class="category-title">🍟 Extras</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img
+              src="https://okdiario.com/img/2023/04/12/el-truco-definitivo-para-que-las-patatas-fritas-te-queden-mas-crujientes.jpg"
+              alt="Papas Fritas">
+            <div class="card-body">
+              <h3 class="card-title">Papas Fritas Texas</h3>
+              <p class="card-desc">Papas sazonadas al estilo sureño con queso cheddar derretido.</p>
+              <div class="card-footer">
+                <span class="price">Bs.15.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: BEBIDAS -->
+      <div id="bebidas" class="menu-category-group">
+        <h3 class="category-title">🥤 Bebidas</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=500&q=80"
+              alt="Gaseosa Personal">
+            <div class="card-body">
+              <h3 class="card-title">Gaseosa 500ml</h3>
+              <p class="card-desc">Refrescante bebida a elección (Coca-Cola, Fanta, Sprite).</p>
+              <div class="card-footer">
+                <span class="price">Bs.8.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: POSTRES -->
+      <div id="postres" class="menu-category-group">
+        <h3 class="category-title">🍦 Postres</h3>
+        <div class="grid-menu">
+          <div class="card-product">
+            <img src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=500&q=80"
+              alt="Sundae de Chocolate">
+            <div class="card-body">
+              <h3 class="card-title">Sundae Texas Fudge</h3>
+              <p class="card-desc">Helado cremoso de vainilla bañado en sirope caliente de chocolate y maní.</p>
+              <div class="card-footer">
+                <span class="price">Bs.12.00</span>
+                <button class="btn-add">Agregar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
   </main>
 
@@ -108,7 +197,8 @@
         <p>El verdadero sabor del pollo frito.</p>
       </div>
       <div class="social-links">
-        <a href="https://www.facebook.com/p/TEXAS-Cochabamba-61589347496199/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.facebook.com/p/TEXAS-Cochabamba-61589347496199/" target="_blank"
+          rel="noopener">Facebook</a>
         <a href="https://www.instagram.com/texascbba/" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
@@ -119,4 +209,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
