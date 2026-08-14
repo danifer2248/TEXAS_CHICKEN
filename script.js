@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Evento para procesar la compra
           checkoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            alert('¡Gracias por tu compra! Tu pedido en Texas Chicken está en proceso.');
+            alert('¡Gracias por tu compra! Tu pedido en Texas Cochabamba está en proceso.');
             cart = [];
             updateCartUI();
             if (cartDropdown) {
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       localStorage.setItem('texasLoggedIn', 'true');
       toggleAuthNav();
-      alert('¡Inicio de sesión exitoso! Bienvenido a Texas Chicken.');
+      alert('¡Inicio de sesión exitoso! Bienvenido a Texas Cochabamba.');
       formLogin.reset();
       window.location.href = 'menu.html';
     });
