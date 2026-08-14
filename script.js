@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const li = document.createElement('li');
           li.className = 'cart-item';
           li.innerHTML = `
-            <span>${item.name} - <strong>$${item.price.toFixed(2)}</strong></span>
+            <span>${item.name} - <strong>Bs.${item.price.toFixed(2)}</strong></span>
             <button class="btn-remove" data-id="${item.id}" title="Quitar producto">&times;</button>
           `;
           cartItemsList.appendChild(li);
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Evento para procesar la compra
           checkoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            alert('¡Gracias por tu compra! Tu pedido en Texas Cochabamba está en proceso.');
+            alert('¡Gracias por tu compra! Tu pedido en Texas Chicken está en proceso.');
             cart = [];
             updateCartUI();
             if (cartDropdown) {
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (card) {
         name = card.querySelector('.card-title')?.innerText || 'Producto';
-        const priceText = card.querySelector('.price')?.innerText || '$0';
-        price = parseFloat(priceText.replace('$', '')) || 0;
+        const priceText = card.querySelector('.price')?.innerText || 'Bs.0';
+        price = parseFloat(priceText.replace('Bs.', '')) || 0;
       }
 
       // Crear ítem único
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       localStorage.setItem('texasLoggedIn', 'true');
       toggleAuthNav();
-      alert('¡Inicio de sesión exitoso! Bienvenido a Texas Cochabamba.');
+      alert('¡Inicio de sesión exitoso! Bienvenido a Texas Chicken.');
       formLogin.reset();
       window.location.href = 'menu.html';
     });
