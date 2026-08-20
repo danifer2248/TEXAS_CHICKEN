@@ -1,50 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. CARGAR Y GUARDAR CARRITO EN LOCALSTORAGE
+  // 1. CARGAR Y GUARDAR CARRITO
   let cart = JSON.parse(localStorage.getItem('texasCart')) || [];
 
-  // Elementos del DOM
+  // Elementos DOM
   const cartCounter = document.getElementById('cart-counter');
   const cartBtn = document.getElementById('cart-btn');
   const cartDropdown = document.getElementById('cartDropdown');
   const cartItemsList = document.getElementById('cartItemsList');
   const cartTotal = document.getElementById('cartTotal');
   const addButtons = document.querySelectorAll('.btn-add');
-
   const formLogin = document.getElementById('form-login');
   const formRegistro = document.getElementById('form-registro');
   const authLinks = document.querySelectorAll('[data-auth-link]');
   const logoutBtn = document.getElementById('logout-btn');
+  
+  // Elementos Responsive
+  const mobileMenuBtn = document.getElementById('mobile-menu');
+  const navLinks = document.querySelector('.nav-links');
 
-  // Comprueba si hay un usuario logeado
-  function isLoggedIn() {
-    return localStorage.getItem('texasLoggedIn') === 'true';
-  }
+  // --- INYECCIÓN DE COMPONENTES UI (TOAST Y MODAL) ---
+  injectUIComponents();
+
+  // Funciones de Autenticación
+  function isLoggedIn() { return localStorage.getItem('texasLoggedIn') === 'true'; }
 
   function toggleAuthNav() {
     const logged = isLoggedIn();
-
     authLinks.forEach(link => {
       const shouldHide = logged && (link.dataset.authLink === 'login' || link.dataset.authLink === 'register');
       link.classList.toggle('hidden', shouldHide);
     });
-
-    if (logoutBtn) {
-      logoutBtn.classList.toggle('hidden', !logged);
-    }
+    if (logoutBtn) logoutBtn.classList.toggle('hidden', !logged);
   }
 
-  // 2. FUNCIÓN PARA ACTUALIZAR LA VISTA DEL CARRITO
-  function updateCartUI() {
-    // Actualizar contador del Navbar
-    if (cartCounter) {
-      cartCounter.innerText = cart.length;
-    }
+  // Menú Hamburguesa Móvil
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
 
-    // Renderizar lista si existen los elementos del desplegable
+  // 2. ACTUALIZAR VISTA DEL CARRITO
+  function updateCartUI() {
+    if (cartCounter) cartCounter.innerText = cart.length;
+
     if (cartItemsList && cartTotal) {
       cartItemsList.innerHTML = '';
-
       if (cart.length === 0) {
         cartItemsList.innerHTML = '<li style="padding: 10px 0; color: #888;">El carrito está vacío.</li>';
       } else {
@@ -59,11 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // Calcular total
       const total = cart.reduce((sum, item) => sum + item.price, 0);
       cartTotal.innerText = total.toFixed(2);
 
-      // Agregar o actualizar el botón "Realizar pedido" dentro del desplegable
+      // Botón "Realizar pedido"
       let checkoutBtn = document.getElementById('btn-checkout');
       if (cart.length > 0) {
         if (!checkoutBtn) {
@@ -73,15 +74,29 @@ document.addEventListener('DOMContentLoaded', () => {
           checkoutBtn.style.marginTop = '12px';
           checkoutBtn.innerText = 'Realizar pedido';
 
-          // Evento para procesar la compra
+          // --- LOGICA MEJORADA DE CIERRE DE PEDIDO ---
           checkoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            alert('¡Gracias por tu compra! Tu pedido en Texas Chicken está en proceso.');
+            
+            // Generar número de orden aleatorio
+            const orderNum = Math.floor(Math.random() * 90000) + 10000;
+            const finalTotal = cartTotal.innerText;
+            const itemsCount = cart.length;
+
+            // Rellenar datos del Modal
+            document.getElementById('order-number').innerText = `#TX-${orderNum}`;
+            document.getElementById('order-summary-content').innerHTML = `
+                <p><strong>Productos:</strong> ${itemsCount} items</p>
+                <p><strong>Total a pagar:</strong> Bs. ${finalTotal}</p>
+            `;
+
+            // Mostrar Modal persistente
+            document.getElementById('checkout-modal').classList.add('active');
+
+            // Vaciar carrito
             cart = [];
             updateCartUI();
-            if (cartDropdown) {
-              cartDropdown.classList.remove('active');
-            }
+            if (cartDropdown) cartDropdown.classList.remove('active');
           });
 
           cartDropdown.appendChild(checkoutBtn);
@@ -90,52 +105,45 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutBtn.remove();
       }
     }
-
-    // Guardar estado en localStorage
     localStorage.setItem('texasCart', JSON.stringify(cart));
   }
 
-  // 3. AGREGAR PRODUCTOS AL CARRITO (redirige a login si no hay sesión)
+  // 3. AGREGAR PRODUCTOS CON ALERTA TOAST
   addButtons.forEach(button => {
     button.addEventListener('click', () => {
       if (!isLoggedIn()) {
-        alert('Debes iniciar sesión para agregar productos. Redirigiendo a iniciar sesión...');
+        alert('Debes iniciar sesión para agregar productos.');
         window.location.href = 'login.html';
         return;
       }
 
       const card = button.closest('.card-product');
-      let name = 'Producto';
-      let price = 0;
+      let name = card ? card.querySelector('.card-title').innerText : 'Producto';
+      let priceText = card ? card.querySelector('.price').innerText : 'Bs.0';
+      let price = parseFloat(priceText.replace('Bs.', '')) || 0;
 
-      if (card) {
-        name = card.querySelector('.card-title')?.innerText || 'Producto';
-        const priceText = card.querySelector('.price')?.innerText || 'Bs.0';
-        price = parseFloat(priceText.replace('Bs.', '')) || 0;
-      }
-
-      // Crear ítem único
-      const newItem = {
-        id: Date.now() + Math.random(),
-        name: name,
-        price: price
-      };
-
-      cart.push(newItem);
+      cart.push({ id: Date.now() + Math.random(), name, price });
       updateCartUI();
 
-      // Desplegar menú del carrito al agregar un producto
-      if (cartDropdown) {
-        cartDropdown.classList.add('active');
-      }
+      // Mostrar Notificación Inmediata en lugar de abrir el carrito directamente
+      showToast(`<strong>${name}</strong> agregada al pedido · <a href="#" id="open-cart-link" style="color:var(--secondary-yellow);">Ver carrito</a>`);
+      
+      // Permitir abrir el carrito desde el toast
+      setTimeout(() => {
+          const openLink = document.getElementById('open-cart-link');
+          if(openLink) openLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              cartDropdown.classList.add('active');
+          });
+      }, 50);
     });
   });
 
-  // 4. QUITAR PRODUCTOS DEL CARRITO (Sin cerrar el desplegable)
+  // 4. QUITAR PRODUCTOS DEL CARRITO
   if (cartItemsList) {
     cartItemsList.addEventListener('click', (e) => {
       if (e.target.classList.contains('btn-remove')) {
-        e.stopPropagation(); // Evita que se dispare el evento global de cierre
+        e.stopPropagation();
         const idToRemove = parseFloat(e.target.getAttribute('data-id'));
         cart = cart.filter(item => item.id !== idToRemove);
         updateCartUI();
@@ -143,37 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. MOSTRAR / OCULTAR DESPLEGABLE DEL CARRITO
+  // 5. EVENTOS DEL CARRITO
   if (cartBtn && cartDropdown) {
     cartBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       cartDropdown.classList.toggle('active');
     });
-
-    // Evitar que los clics dentro del menú desplegable lo cierren accidentalmente
-    cartDropdown.addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
-
-    // Cerrar el desplegable ÚNICAMENTE al hacer clic fuera de él o del botón del carrito
-    document.addEventListener('click', () => {
-      cartDropdown.classList.remove('active');
-    });
+    cartDropdown.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', () => cartDropdown.classList.remove('active'));
   }
 
-  // 6. FORMULARIOS DE LOGIN Y REGISTRO
+  // 6. FORMULARIOS LOGIN/REGISTRO
   if (formLogin) {
     formLogin.addEventListener('submit', (e) => {
       e.preventDefault();
-      // Marcar sesión como iniciada
-      const emailInput = document.getElementById('login-email');
-      if (emailInput) {
-        localStorage.setItem('texasUserEmail', emailInput.value);
-      }
       localStorage.setItem('texasLoggedIn', 'true');
-      toggleAuthNav();
-      alert('¡Inicio de sesión exitoso! Bienvenido a Texas Chicken.');
-      formLogin.reset();
+      alert('¡Inicio de sesión exitoso!');
       window.location.href = 'menu.html';
     });
   }
@@ -181,19 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formRegistro) {
     formRegistro.addEventListener('submit', (e) => {
       e.preventDefault();
-      // Registrar y marcar sesión como iniciada
-      const nameInput = document.getElementById('reg-name');
-      const emailInput = document.getElementById('reg-email');
-      if (nameInput) {
-        localStorage.setItem('texasUserName', nameInput.value);
-      }
-      if (emailInput) {
-        localStorage.setItem('texasUserEmail', emailInput.value);
-      }
       localStorage.setItem('texasLoggedIn', 'true');
-      toggleAuthNav();
-      alert('¡Cuenta creada con éxito! Ya puedes realizar tu pedido.');
-      formRegistro.reset();
+      alert('¡Cuenta creada con éxito!');
       window.location.href = 'menu.html';
     });
   }
@@ -201,16 +183,65 @@ document.addEventListener('DOMContentLoaded', () => {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('texasLoggedIn');
-      localStorage.removeItem('texasUserEmail');
-      localStorage.removeItem('texasUserName');
-      toggleAuthNav();
       alert('Has cerrado sesión.');
       window.location.href = 'index.html';
     });
   }
 
-  // Carga inicial de la UI al abrir cualquier página
+  // INICIALIZACIÓN
   toggleAuthNav();
   updateCartUI();
 
+  // --- FUNCIONES DE AYUDA (MODAL Y TOAST) ---
+  function showToast(message) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `✅ <span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s forwards';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+
+  function injectUIComponents() {
+    // Inyectar contenedor Toast
+    if (!document.getElementById('toast-container')) {
+      const toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      toastContainer.className = 'toast-container';
+      document.body.appendChild(toastContainer);
+    }
+
+    // Inyectar Modal de Checkout
+    if (!document.getElementById('checkout-modal')) {
+      const modal = document.createElement('div');
+      modal.id = 'checkout-modal';
+      modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <span class="modal-close" id="modal-close">&times;</span>
+          <h2>¡Pedido Confirmado! 🎉</h2>
+          <p>Tu orden <strong id="order-number" style="color:var(--primary-red);"></strong> ha sido registrada.</p>
+          
+          <div class="order-summary-box" id="order-summary-content"></div>
+          
+          <p class="modal-next-steps">
+            <strong>Siguiente paso:</strong><br>
+            Estamos preparando tu comida. El tiempo estimado de entrega es de <strong>30 a 45 minutos</strong>.<br><br>
+            Nos contactaremos a tu número para coordinar la entrega.
+          </p>
+          <button class="btn-submit" id="btn-close-modal">Entendido</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      // Eventos para cerrar el modal
+      const closeModal = () => modal.classList.remove('active');
+      document.getElementById('modal-close').addEventListener('click', closeModal);
+      document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+    }
+  }
 });

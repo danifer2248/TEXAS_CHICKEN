@@ -17,27 +17,25 @@
       <div class="logo-text">Texas Cochabamba</div>
     </a>
 
-    <ul class="nav-links">
+    <!-- Botón Hamburguesa para Móviles -->
+    <div class="menu-toggle" id="mobile-menu">☰</div>
+
+    <ul class="nav-links" id="nav-links">
+      <!-- (Nota: Recuerda mantener el class="active" en el <li> de la página correspondiente) -->
       <li><a href="index.html">Inicio</a></li>
-      <li><a href="menu.html" class="active">Menú</a></li>
+      <li><a href="menu.html">Menú</a></li>
       <li><a href="login.html" data-auth-link="login">Iniciar Sesión</a></li>
       <li><a href="registro.html" data-auth-link="register">Registrarse</a></li>
       <li><button class="btn-logout hidden" id="logout-btn" type="button">Cerrar sesión</button></li>
       <li>
-        <!-- CONTENEDOR DEL CARRITO DESPLEGABLE -->
         <div class="cart-container">
           <button class="btn-cart" id="cart-btn">
             🛒 Carrito (<span id="cart-counter">0</span>)
           </button>
-
           <div class="cart-dropdown" id="cartDropdown">
             <h4>Tu Pedido</h4>
-            <ul class="cart-items-list" id="cartItemsList">
-              <!-- Los productos agregados se renderizan aquí mediante script.js -->
-            </ul>
-            <div class="cart-total">
-              Total: Bs.<span id="cartTotal">0.00</span>
-            </div>
+            <ul class="cart-items-list" id="cartItemsList"></ul>
+            <div class="cart-total">Total: Bs.<span id="cartTotal">0.00</span></div>
           </div>
         </div>
       </li>
@@ -64,7 +62,8 @@
         <h3 class="category-title">🍔 Hamburguesas</h3>
         <div class="grid-menu">
           <div class="card-product">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJfOobstlmMihsRY1mmcUOT9UCZikkdzXjgtbFM_daBw&s=10"
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJfOobstlmMihsRY1mmcUOT9UCZikkdzXjgtbFM_daBw&s=10"
               alt="Ranchera">
             <div class="card-body">
               <h3 class="card-title">Ranchera</h3>
@@ -76,7 +75,8 @@
             </div>
           </div>
           <div class="card-product">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjvO4a9uxP9EHpuk-9TH6_nl2pdKfn7OMJWZqytHBctm_vbiAndtBul7&s=10"
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxwjvO4a9uxP9EHpuk-9TH6_nl2pdKfn7OMJWZqytHBctm_vbiAndtBul7&s=10"
               alt="Americana">
             <div class="card-body">
               <h3 class="card-title">Americana</h3>
@@ -88,8 +88,7 @@
             </div>
           </div>
           <div class="card-product">
-            <img src="https://storage.googleapis.com/patsy-ecommerce.appspot.com/small_barbacoa_1dd535b778"
-              alt="Texas">
+            <img src="https://storage.googleapis.com/patsy-ecommerce.appspot.com/small_barbacoa_1dd535b778" alt="Texas">
             <div class="card-body">
               <h3 class="card-title">Texas</h3>
               <p class="card-desc">Carne, cebolla caramelizada, queso cheddar, salsa BBQ y tocino.</p>
@@ -119,7 +118,8 @@
             </div>
           </div>
           <div class="card-product">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKaubpumDCw6RM7imkqE8ST6iXmXbQH5s5_dO51wvGwg&s=10"
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKaubpumDCw6RM7imkqE8ST6iXmXbQH5s5_dO51wvGwg&s=10"
               alt="Salchipapa">
             <div class="card-body">
               <h3 class="card-title">Salchipapa</h3>
@@ -131,11 +131,13 @@
             </div>
           </div>
           <div class="card-product">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4QiDlW1ZSEZryDMz2bdSgGL8U4UUd7D0TjwbYWki_KyZGoaapgZQIqX4&s=10"
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4QiDlW1ZSEZryDMz2bdSgGL8U4UUd7D0TjwbYWki_KyZGoaapgZQIqX4&s=10"
               alt="Salchipollo">
             <div class="card-body">
               <h3 class="card-title">Salchipollo</h3>
-              <p class="card-desc">Deliciosa salchicha acompañada de pedazos de pollo crujiente, papas fritas, ketchup, mayonesa y mostaza.</p>
+              <p class="card-desc">Deliciosa salchicha acompañada de pedazos de pollo crujiente, papas fritas, ketchup,
+                mayonesa y mostaza.</p>
               <div class="card-footer">
                 <span class="price">Bs.44.00</span>
                 <button class="btn-add">Agregar</button>
@@ -277,6 +279,24 @@
 
   <!-- FOOTER -->
   <footer>
+    <div class="footer-info">
+      <div class="info-box">
+        <h4>🕒 Horarios</h4>
+        <p>Lunes - Domingo:<br>11:00 AM - 10:00 PM</p>
+      </div>
+      <div class="info-box">
+        <h4>🛵 Delivery</h4>
+        <p>Zonas Centro y Norte.<br>Costo: Bs. 10 (Tiempo 30-45 min)</p>
+      </div>
+      <div class="info-box">
+        <h4>💳 Métodos de Pago</h4>
+        <p>Efectivo, QR, Transferencia y Tarjeta al recibir.</p>
+      </div>
+      <div class="info-box">
+        <h4>📍 Dirección y Contacto</h4>
+        <p>Av. América #123, Cochabamba<br>Tel: +591 77712345</p>
+      </div>
+    </div>
     <div class="footer-content">
       <div>
         <h3>Texas Cochabamba</h3>
