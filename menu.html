@@ -10,36 +10,39 @@
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- NAVBAR (Barra Fija) -->
   <nav class="navbar">
     <a href="index.html" class="logo">
       <div class="logo-badge">TC</div>
       <div class="logo-text">Texas Cochabamba</div>
     </a>
 
-    <!-- Botón Hamburguesa para Móviles -->
-    <div class="menu-toggle" id="mobile-menu">☰</div>
-
+    <!-- Enlaces de navegación (Se ocultan en móvil) -->
     <ul class="nav-links" id="nav-links">
-      <!-- (Nota: Recuerda mantener el class="active" en el <li> de la página correspondiente) -->
       <li><a href="index.html">Inicio</a></li>
       <li><a href="menu.html">Menú</a></li>
       <li><a href="login.html" data-auth-link="login">Iniciar Sesión</a></li>
       <li><a href="registro.html" data-auth-link="register">Registrarse</a></li>
       <li><button class="btn-logout hidden" id="logout-btn" type="button">Cerrar sesión</button></li>
-      <li>
-        <div class="cart-container">
-          <button class="btn-cart" id="cart-btn">
-            🛒 Carrito (<span id="cart-counter">0</span>)
-          </button>
-          <div class="cart-dropdown" id="cartDropdown">
-            <h4>Tu Pedido</h4>
-            <ul class="cart-items-list" id="cartItemsList"></ul>
-            <div class="cart-total">Total: Bs.<span id="cartTotal">0.00</span></div>
-          </div>
-        </div>
-      </li>
     </ul>
+
+    <!-- Acciones Derecha: Menú y Carrito (Siempre visibles en móvil) -->
+    <div class="nav-right-actions">
+      <!-- Botón Hamburguesa -->
+      <div class="menu-toggle" id="mobile-menu">☰</div>
+
+      <!-- Contenedor del carrito -->
+      <div class="cart-container">
+        <button class="btn-cart" id="cart-btn">
+          🛒 <span class="cart-text">Carrito</span> (<span id="cart-counter">0</span>)
+        </button>
+        <div class="cart-dropdown" id="cartDropdown">
+          <h4>Tu Pedido</h4>
+          <ul class="cart-items-list" id="cartItemsList"></ul>
+          <div class="cart-total">Total: Bs.<span id="cartTotal">0.00</span></div>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <!-- CONTENIDO PRINCIPAL -->
