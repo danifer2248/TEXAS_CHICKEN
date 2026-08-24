@@ -15,35 +15,45 @@ document.addEventListener('DOMContentLoaded', () => {
   const authLinks = document.querySelectorAll('[data-auth-link]');
   const logoutBtn = document.getElementById('logout-btn');
   
-  // Elementos Responsive
+  // Elementos Responsive (P1: Menú Hamburguesa como Botón)
   const mobileMenuBtn = document.getElementById('mobile-menu');
   const navLinks = document.querySelector('.nav-links');
 
-  // --- INYECCIÓN DE COMPONENTES UI (TOAST Y MODAL) ---
   injectUIComponents();
 
-  // Funciones de Autenticación
-  function isLoggedIn() { return localStorage.getItem('texasLoggedIn') === 'true'; }
+  // P1: Cierre de Sesión Limpio y Estado de Autenticación
+  function isLoggedIn() { 
+    return localStorage.getItem('texasLoggedIn') === 'true'; 
+  }
 
   function toggleAuthNav() {
     const logged = isLoggedIn();
     authLinks.forEach(link => {
-      const shouldHide = logged && (link.dataset.authLink === 'login' || link.dataset.authLink === 'register');
-      link.classList.toggle('hidden', shouldHide);
+      const isAuthPage = link.dataset.authLink === 'login' || link.dataset.authLink === 'register';
+      if (logged) {
+        link.classList.toggle('hidden', isAuthPage);
+      } else {
+        link.classList.toggle('hidden', !isAuthPage);
+      }
     });
-    if (logoutBtn) logoutBtn.classList.toggle('hidden', !logged);
+    if (logoutBtn) {
+      logoutBtn.classList.toggle('hidden', !logged);
+    }
   }
 
-  // Menú Hamburguesa Móvil
+  // P1: Menú Hamburguesa accesible
   if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', () => {
+      const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+      mobileMenuBtn.setAttribute('aria-expanded', !expanded);
       navLinks.classList.toggle('active');
     });
   }
 
-  // 2. ACTUALIZAR VISTA DEL CARRITO
+  // P2: Actualizar Vista del Carrito con Multi-cantidad y Atributos de Accesibilidad
   function updateCartUI() {
-    if (cartCounter) cartCounter.innerText = cart.length;
+    const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+    if (cartCounter) cartCounter.innerText = totalCount;
 
     if (cartItemsList && cartTotal) {
       cartItemsList.innerHTML = '';
@@ -54,17 +64,24 @@ document.addEventListener('DOMContentLoaded', () => {
           const li = document.createElement('li');
           li.className = 'cart-item';
           li.innerHTML = `
-            <span>${item.name} - <strong>Bs.${item.price.toFixed(2)}</strong></span>
-            <button class="btn-remove" data-id="${item.id}" title="Quitar producto">&times;</button>
+            <div class="cart-item-details">
+              <strong>${item.name}</strong>
+              <span>Bs. ${(item.price * item.qty).toFixed(2)}</span>
+            </div>
+            <div class="cart-item-controls">
+              <button class="btn-qty btn-dec" data-id="${item.id}" aria-label="Disminuir cantidad de ${item.name}">-</button>
+              <span>${item.qty}</span>
+              <button class="btn-qty btn-inc" data-id="${item.id}" aria-label="Aumentar cantidad de ${item.name}">+</button>
+              <button class="btn-remove" data-id="${item.id}" aria-label="Eliminar ${item.name} del carrito">&times;</button>
+            </div>
           `;
           cartItemsList.appendChild(li);
         });
       }
 
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
       cartTotal.innerText = total.toFixed(2);
 
-      // Botón "Realizar pedido"
       let checkoutBtn = document.getElementById('btn-checkout');
       if (cart.length > 0) {
         if (!checkoutBtn) {
@@ -74,26 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
           checkoutBtn.style.marginTop = '12px';
           checkoutBtn.innerText = 'Realizar pedido';
 
-          // --- LOGICA MEJORADA DE CIERRE DE PEDIDO ---
           checkoutBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            
-            // Generar número de orden aleatorio
             const orderNum = Math.floor(Math.random() * 90000) + 10000;
             const finalTotal = cartTotal.innerText;
-            const itemsCount = cart.length;
+            const itemsCount = cart.reduce((sum, i) => sum + i.qty, 0);
 
-            // Rellenar datos del Modal
             document.getElementById('order-number').innerText = `#TX-${orderNum}`;
             document.getElementById('order-summary-content').innerHTML = `
                 <p><strong>Productos:</strong> ${itemsCount} items</p>
                 <p><strong>Total a pagar:</strong> Bs. ${finalTotal}</p>
             `;
 
-            // Mostrar Modal persistente
             document.getElementById('checkout-modal').classList.add('active');
-
-            // Vaciar carrito
             cart = [];
             updateCartUI();
             if (cartDropdown) cartDropdown.classList.remove('active');
@@ -108,50 +118,70 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('texasCart', JSON.stringify(cart));
   }
 
-  // 3. AGREGAR PRODUCTOS CON ALERTA TOAST
+  // P2: Control de sesión previo a agregar producto
   addButtons.forEach(button => {
     button.addEventListener('click', () => {
       if (!isLoggedIn()) {
-        alert('Debes iniciar sesión para agregar productos.');
+        sessionStorage.setItem('loginRedirectReason', 'Debes iniciar sesión para agregar productos a tu pedido.');
         window.location.href = 'login.html';
         return;
       }
 
       const card = button.closest('.card-product');
       let name = card ? card.querySelector('.card-title').innerText : 'Producto';
-      let priceText = card ? card.querySelector('.price').innerText : 'Bs.0';
-      let price = parseFloat(priceText.replace('Bs.', '')) || 0;
+      let priceText = card ? card.querySelector('.price').innerText : 'Bs. 0';
+      let price = parseFloat(priceText.replace('Bs.', '').trim()) || 0;
 
-      cart.push({ id: Date.now() + Math.random(), name, price });
+      const existingIndex = cart.findIndex(item => item.name === name);
+      if (existingIndex > -1) {
+        cart[existingIndex].qty += 1;
+      } else {
+        cart.push({ id: Date.now() + Math.random(), name, price, qty: 1 });
+      }
+
       updateCartUI();
+      showToast(`<strong>${name}</strong> agregado al pedido · <a href="#" id="open-cart-link" style="color:var(--secondary-yellow);">Ver carrito</a>`);
 
-      // Mostrar Notificación Inmediata en lugar de abrir el carrito directamente
-      showToast(`<strong>${name}</strong> agregada al pedido · <a href="#" id="open-cart-link" style="color:var(--secondary-yellow);">Ver carrito</a>`);
-      
-      // Permitir abrir el carrito desde el toast
       setTimeout(() => {
-          const openLink = document.getElementById('open-cart-link');
-          if(openLink) openLink.addEventListener('click', (e) => {
-              e.preventDefault();
-              cartDropdown.classList.add('active');
+        const openLink = document.getElementById('open-cart-link');
+        if (openLink) {
+          openLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            cartDropdown.classList.add('active');
           });
+        }
       }, 50);
     });
   });
 
-  // 4. QUITAR PRODUCTOS DEL CARRITO
+  // P2: Eventos de incremento, decremento y eliminación accesibles
   if (cartItemsList) {
     cartItemsList.addEventListener('click', (e) => {
+      const id = parseFloat(e.target.getAttribute('data-id'));
+      if (!id) return;
+
       if (e.target.classList.contains('btn-remove')) {
         e.stopPropagation();
-        const idToRemove = parseFloat(e.target.getAttribute('data-id'));
-        cart = cart.filter(item => item.id !== idToRemove);
-        updateCartUI();
+        cart = cart.filter(item => item.id !== id);
+      } else if (e.target.classList.contains('btn-inc')) {
+        e.stopPropagation();
+        const item = cart.find(i => i.id === id);
+        if (item) item.qty += 1;
+      } else if (e.target.classList.contains('btn-dec')) {
+        e.stopPropagation();
+        const item = cart.find(i => i.id === id);
+        if (item) {
+          item.qty -= 1;
+          if (item.qty <= 0) {
+            cart = cart.filter(i => i.id !== id);
+          }
+        }
       }
+      updateCartUI();
     });
   }
 
-  // 5. EVENTOS DEL CARRITO
+  // Eventos Carrito
   if (cartBtn && cartDropdown) {
     cartBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -161,10 +191,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', () => cartDropdown.classList.remove('active'));
   }
 
-  // 6. FORMULARIOS LOGIN/REGISTRO
+  // P3: Validación de formularios con mensajes textuales claros
+  function validateForm(form) {
+    let valid = true;
+    const inputs = form.querySelectorAll('input[required]');
+    inputs.forEach(input => {
+      const errorSpan = input.parentNode.querySelector('.error-msg');
+      if (!input.value.trim()) {
+        valid = false;
+        input.style.borderColor = 'var(--primary-red)';
+        if (errorSpan) {
+          errorSpan.innerText = 'Este campo es obligatorio.';
+          errorSpan.classList.add('active');
+        }
+      } else {
+        input.style.borderColor = '#ccc';
+        if (errorSpan) errorSpan.classList.remove('active');
+      }
+    });
+    return valid;
+  }
+
   if (formLogin) {
     formLogin.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (!validateForm(formLogin)) return;
+
       localStorage.setItem('texasLoggedIn', 'true');
       alert('¡Inicio de sesión exitoso!');
       window.location.href = 'menu.html';
@@ -174,25 +226,56 @@ document.addEventListener('DOMContentLoaded', () => {
   if (formRegistro) {
     formRegistro.addEventListener('submit', (e) => {
       e.preventDefault();
+      if (!validateForm(formRegistro)) return;
+
       localStorage.setItem('texasLoggedIn', 'true');
       alert('¡Cuenta creada con éxito!');
       window.location.href = 'menu.html';
     });
   }
 
+  // P1: Cierre de Sesión Limpio - Oculta Carrito
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('texasLoggedIn');
+      if (cartDropdown) cartDropdown.classList.remove('active');
+      toggleAuthNav();
       alert('Has cerrado sesión.');
       window.location.href = 'index.html';
     });
   }
 
-  // INICIALIZACIÓN
+  // P2: Mostrar contraseña en Formularios
+  const togglePasswordBtns = document.querySelectorAll('.btn-toggle-password');
+  togglePasswordBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentNode.querySelector('input');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerText = 'Ocultar';
+      } else {
+        input.type = 'password';
+        btn.innerText = 'Mostrar';
+      }
+    });
+  });
+
+  // Mensaje de redirección al login sin sesión
+  const redirectReason = sessionStorage.getItem('loginRedirectReason');
+  if (redirectReason && window.location.pathname.includes('login.html')) {
+    const alertBox = document.getElementById('login-alert');
+    if (alertBox) {
+      alertBox.innerText = redirectReason;
+      alertBox.classList.remove('hidden');
+    }
+    sessionStorage.removeItem('loginRedirectReason');
+  }
+
+  // Inicialización
   toggleAuthNav();
   updateCartUI();
 
-  // --- FUNCIONES DE AYUDA (MODAL Y TOAST) ---
+  // Helpers UI
   function showToast(message) {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -207,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function injectUIComponents() {
-    // Inyectar contenedor Toast
     if (!document.getElementById('toast-container')) {
       const toastContainer = document.createElement('div');
       toastContainer.id = 'toast-container';
@@ -215,19 +297,16 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.appendChild(toastContainer);
     }
 
-    // Inyectar Modal de Checkout
     if (!document.getElementById('checkout-modal')) {
       const modal = document.createElement('div');
       modal.id = 'checkout-modal';
       modal.className = 'modal';
       modal.innerHTML = `
         <div class="modal-content">
-          <span class="modal-close" id="modal-close">&times;</span>
+          <button class="modal-close" id="modal-close" aria-label="Cerrar modal">&times;</button>
           <h2>¡Pedido Confirmado! 🎉</h2>
           <p>Tu orden <strong id="order-number" style="color:var(--primary-red);"></strong> ha sido registrada.</p>
-          
           <div class="order-summary-box" id="order-summary-content"></div>
-          
           <p class="modal-next-steps">
             <strong>Siguiente paso:</strong><br>
             Estamos preparando tu comida. El tiempo estimado de entrega es de <strong>30 a 45 minutos</strong>.<br><br>
@@ -238,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       document.body.appendChild(modal);
 
-      // Eventos para cerrar el modal
       const closeModal = () => modal.classList.remove('active');
       document.getElementById('modal-close').addEventListener('click', closeModal);
       document.getElementById('btn-close-modal').addEventListener('click', closeModal);
