@@ -1,112 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Texas Cochabamba | Iniciar Sesión</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Texas Chicken - Iniciar Sesión</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-    <!-- NAVBAR (Barra Fija) -->
-    <nav class="navbar">
-        <a href="index.html" class="logo">
-            <div class="logo-badge">TC</div>
-            <div class="logo-text">Texas Cochabamba</div>
-        </a>
+  <nav class="navbar">
+    <a href="index.html" class="logo" aria-label="Página de inicio de Texas Chicken">
+      <span class="logo-badge">T</span>
+      <span class="logo-text">Texas Chicken</span>
+    </a>
 
-        <!-- Enlaces de navegación (Se ocultan en móvil) -->
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="menu.html">Menú</a></li>
-            <li><a href="login.html" data-auth-link="login">Iniciar Sesión</a></li>
-            <li><a href="registro.html" data-auth-link="register">Registrarse</a></li>
-            <li><button class="btn-logout hidden" id="logout-btn" type="button">Cerrar sesión</button></li>
-        </ul>
+    <button class="menu-toggle" id="mobile-menu" aria-label="Abrir menú de navegación" aria-expanded="false">☰</button>
 
-        <!-- Acciones Derecha: Menú y Carrito (Siempre visibles en móvil) -->
-        <div class="nav-right-actions">
-            <!-- Botón Hamburguesa -->
-            <div class="menu-toggle" id="mobile-menu">☰</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="menu.html">Menú</a></li>
+      <li data-auth-link="login"><a href="login.html" class="active">Iniciar Sesión</a></li>
+      <li data-auth-link="register"><a href="registro.html">Registrarse</a></li>
+      <li><button id="logout-btn" class="btn-logout hidden">Cerrar Sesión</button></li>
+    </ul>
 
-            <!-- Contenedor del carrito -->
-            <div class="cart-container">
-                <button class="btn-cart" id="cart-btn">
-                    🛒 <span class="cart-text">Carrito</span> (<span id="cart-counter">0</span>)
-                </button>
-                <div class="cart-dropdown" id="cartDropdown">
-                    <h4>Tu Pedido</h4>
-                    <ul class="cart-items-list" id="cartItemsList"></ul>
-                    <div class="cart-total">Total: Bs.<span id="cartTotal">0.00</span></div>
-                </div>
-            </div>
+    <div class="nav-right-actions">
+      <div class="cart-container">
+        <button class="btn-cart" id="cart-btn" aria-label="Carrito de compras">
+          🛒 <span class="cart-text-mobile-hide">Carrito</span> (<span id="cart-counter">0</span>)
+        </button>
+        <div class="cart-dropdown" id="cartDropdown">
+          <h4>Tu Pedido</h4>
+          <ul class="cart-items-list" id="cartItemsList"></ul>
+          <div class="cart-total">Total: Bs. <span id="cartTotal">0.00</span></div>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="main-container">
-        <section class="page-section">
-            <div class="form-container">
-                <h2>Iniciar Sesión</h2>
-                <form id="form-login">
-                    <div class="form-group">
-                        <label for="login-email">Correo Electrónico</label>
-                        <input type="email" id="login-email" placeholder="tu@email.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" placeholder="••••••••" required>
-                    </div>
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
+  <main class="main-container">
+    <div class="form-container page-section">
+      <h2>Iniciar Sesión</h2>
+      
+      <!-- P2: Explicación previa en caso de ser redirigido sin sesión -->
+      <div id="login-alert" class="hidden" style="background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 0.9rem;"></div>
 
-                <!-- ENLACE A REGISTRO -->
-                <p class="register-redirect">
-                    ¿No tienes cuenta? <a href="registro.html">Créate una</a>
-                </p>
-            </div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-info">
-            <div class="info-box">
-                <h4>🕒 Horarios</h4>
-                <p>Lunes - Domingo:<br>11:00 AM - 10:00 PM</p>
-            </div>
-            <div class="info-box">
-                <h4>🛵 Delivery</h4>
-                <p>Zonas Centro y Norte.<br>Costo: Bs. 10 (Tiempo 30-45 min)</p>
-            </div>
-            <div class="info-box">
-                <h4>💳 Métodos de Pago</h4>
-                <p>Efectivo, QR, Transferencia y Tarjeta al recibir.</p>
-            </div>
-            <div class="info-box">
-                <h4>📍 Dirección y Contacto</h4>
-                <p>Av. América #123, Cochabamba<br>Tel: +591 77712345</p>
-            </div>
+      <form id="form-login" novalidate>
+        <div class="form-group">
+          <label for="email">Correo Electrónico</label>
+          <input type="email" id="email" required placeholder="tu@email.com">
+          <span class="error-msg"></span>
         </div>
-        <div class="footer-content">
-            <div>
-                <h3>Texas Cochabamba</h3>
-                <p>El verdadero sabor del pollo frito.</p>
-            </div>
-            <div class="social-links">
-                <a href="https://www.facebook.com/p/TEXAS-Cochabamba-61589347496199/" target="_blank"
-                    rel="noopener">Facebook</a>
-                <a href="https://www.instagram.com/texascbba/" target="_blank" rel="noopener">Instagram</a>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2026 Texas Cochabamba. Todos los derechos reservados.
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="password-field-wrapper">
+            <input type="password" id="password" required placeholder="••••••••">
+            <!-- P2: Opción para mostrar/ocultar contraseña -->
+            <button type="button" class="btn-toggle-password">Mostrar</button>
+          </div>
+          <span class="error-msg"></span>
+        </div>
+
+        <!-- P2: Recuperación de contraseña -->
+        <div class="form-options">
+          <a href="#" class="forgot-link" onclick="alert('Instrucciones enviadas a tu correo para restablecer la contraseña.'); return false;">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="btn-submit">Ingresar</button>
+      </form>
+
+      <div class="register-redirect">
+        ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="copyright">
+      &copy; 2026 Texas Chicken. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
-
 </html>
