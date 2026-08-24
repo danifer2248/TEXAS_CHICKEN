@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const formRegistro = document.getElementById('form-registro');
   const authLinks = document.querySelectorAll('[data-auth-link]');
   const logoutBtn = document.getElementById('logout-btn');
-  
+
   // Elementos Responsive (P1: Menú Hamburguesa como Botón)
   const mobileMenuBtn = document.getElementById('mobile-menu');
   const navLinks = document.querySelector('.nav-links');
@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   injectUIComponents();
 
   // P1: Cierre de Sesión Limpio y Estado de Autenticación
-  function isLoggedIn() { 
-    return localStorage.getItem('texasLoggedIn') === 'true'; 
+  function isLoggedIn() {
+    return localStorage.getItem('texasLoggedIn') === 'true';
   }
 
   function toggleAuthNav() {
