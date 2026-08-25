@@ -17,10 +17,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* FIX CRÍTICO: Prevenir scroll horizontal en móviles */
+/* CORRECCIÓN STICKY 1: Evitar overflow en html/body que desactiva position:sticky */
 html,
 body {
-  overflow-x: hidden;
   width: 100%;
 }
 
@@ -285,6 +284,7 @@ body {
   padding: 30px 20px;
 }
 
+/* CORRECCIÓN STICKY 2: Eliminada la propiedad transform que rompía el posicionado pegajoso */
 .page-section {
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -292,12 +292,9 @@ body {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(5px);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -627,13 +624,16 @@ html {
   scroll-padding-top: 150px;
 }
 
-/* P2: Indicador visual de desplazamiento horizontal (sombra / degradado) */
+/* REGISTRO PEGAJOSO CONFIGURADO DIRECTAMENTE EN EL ENVOLVENTE */
 .menu-categories-wrapper {
+  position: -webkit-sticky;
   position: sticky;
   top: 75px;
-  z-index: 90;
+  z-index: 500;
   background-color: var(--light-gray);
   margin-bottom: 30px;
+  padding: 10px 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
 }
 
 .menu-categories-wrapper::after {
